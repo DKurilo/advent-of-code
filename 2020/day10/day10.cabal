@@ -1,0 +1,65 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: ce3c7074afe4e24a50b195d6f431d72535dd6ba621e0fa889d70d34c3b32e716
+
+name:           day10
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/DKurilo/day10#readme>
+homepage:       https://github.com/DKurilo/day10#readme
+bug-reports:    https://github.com/DKurilo/day10/issues
+author:         Dima Kurilo
+maintainer:     dkurilo@gmail.com
+copyright:      Dima Kurilo
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/DKurilo/day10
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_day10
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , vector >=0.12
+  default-language: Haskell2010
+
+executable day10-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_day10
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , day10
+    , vector >=0.12
+  default-language: Haskell2010
+
+test-suite day10-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_day10
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , day10
+    , vector >=0.12
+  default-language: Haskell2010

@@ -1,0 +1,51 @@
+name:                day20
+version:             0.1.0.0
+github:              "DKurilo/day20"
+license:             BSD3
+author:              "Dima Kurilo"
+maintainer:          "dkurilo@gmail.com"
+copyright:           "Dima Kurilo"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/DKurilo/day20#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- containers >= 0.6
+- vector >= 0.12
+
+library:
+  source-dirs: src
+
+executables:
+  day20-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -O2
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - day20
+
+tests:
+  day20-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - day20
