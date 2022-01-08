@@ -61,6 +61,11 @@ findShortestPath m mols rules fins
 inverseRules :: Ord a => M.Map [a] [[a]] -> M.Map [a] [[a]]
 inverseRules = M.fromListWith (++) . concatMap (\(from, tos) -> map ((,[reverse from]) . reverse) tos) . M.toList
 
+-- So we are starting from the end of the string and applying only last possible substitution
+-- There is a trick that prevents blinking strings. Like HOHOHO -> HOHOHe -> HOHOHH -> HOHOHe -> ...
+-- In the same time if rules contains blinking substitution that will be at the end of the string
+-- we still will have a problem
+-- I didn't figure out proper solution for this things
 part2Solution :: M.Map String [String] -> String -> Maybe Int
 part2Solution rules mol = findShortestPath stm (S.singleton . reverse $ mol) rules' fins
   where
