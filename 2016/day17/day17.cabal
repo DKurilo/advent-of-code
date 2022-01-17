@@ -4,11 +4,11 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 
-name:           day16
+name:           day17
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/DKurilo/day16#readme>
-homepage:       https://github.com/DKurilo/day16#readme
-bug-reports:    https://github.com/DKurilo/day16/issues
+description:    Please see the README on GitHub at <https://github.com/DKurilo/day17#readme>
+homepage:       https://github.com/DKurilo/day17#readme
+bug-reports:    https://github.com/DKurilo/day17/issues
 author:         Dima Kurilo
 maintainer:     dkurilo@gmail.com
 copyright:      Dima Kurilo
@@ -21,40 +21,49 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/DKurilo/day16
+  location: https://github.com/DKurilo/day17
 
 library
   exposed-modules:
       Lib
   other-modules:
-      Paths_day16
+      Paths_day17
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , base16-bytestring
+    , bytestring
+    , cryptohash-md5
   default-language: Haskell2010
 
-executable day16-exe
+executable day17-exe
   main-is: Main.hs
   other-modules:
-      Paths_day16
+      Paths_day17
   hs-source-dirs:
       app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N -O2
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
-    , day16
+    , base16-bytestring
+    , bytestring
+    , cryptohash-md5
+    , day17
   default-language: Haskell2010
 
-test-suite day16-test
+test-suite day17-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Paths_day16
+      Paths_day17
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
-    , day16
+    , base16-bytestring
+    , bytestring
+    , cryptohash-md5
+    , day17
   default-language: Haskell2010
