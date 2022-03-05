@@ -336,41 +336,6 @@ convolutePath actions
       guard $ length mn <= 20
       return $ CPath shrinkedPathA shrinkedPathB shrinkedPathC mn False
 
-convolutePath' :: [Action] -> Maybe CPath
-convolutePath' actions
-  | null restAsC && (length . showMain) pr <= 20 = Just $ CPath shrinkedPathA shrinkedPathB shrinkedPathC (mkPr actions) False
-  | otherwise = Nothing
-  where
-    getPart :: [Action] -> [[Action]] -> [Action]
-    getPart [] ((a : firstActs) : actss) = getPart [a] (firstActs : actss)
-    getPart as [] = as
-    getPart as ([] : restActss) = getPart as restActss
-    getPart as actss@((a : firstActs) : restActss)
-      | shrinkedAsLength > 20 = as
-      | rest nextAs < rest as = nextAs
-      | otherwise = as
-      where
-        as' = as ++ [a]
-        shrinkedAsLength = (length . showFunc . shrinkPath) as'
-        rest as'' = length . concat . concatMap (splitOn as'') $ ((as ++ [a] ++ firstActs) : restActss)
-        nextAs = getPart as' (firstActs : restActss)
-    pathA = getPart [] [actions]
-    shrinkedPathA = shrinkPath pathA
-    restAsA = filter (not . null) . splitOn pathA $ actions
-    pathB = getPart [] restAsA
-    shrinkedPathB = shrinkPath pathB
-    restAsB = filter (not . null) . concatMap (splitOn pathB) $ restAsA
-    pathC = getPart [] restAsB
-    restAsC = filter (not . null) . concatMap (splitOn pathC) $ restAsB
-    shrinkedPathC = shrinkPath pathC
-    mkPr as
-      | null as = []
-      | pathA `isPrefixOf` as = A : (mkPr . drop (length pathA)) as
-      | pathB `isPrefixOf` as = B : (mkPr . drop (length pathB)) as
-      | pathC `isPrefixOf` as = C : (mkPr . drop (length pathC)) as
-      | otherwise = []
-    pr = mkPr actions
-
 findPath :: [[Action]] -> [CPath]
 findPath = map (\(Just cp) -> cp) . filter isJust . map convolutePath
 
