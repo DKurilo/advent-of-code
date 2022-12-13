@@ -1,0 +1,47 @@
+module Lib
+  ( part1Solution,
+    part2Solution,
+  )
+where
+
+import Debug.Trace (trace)
+import qualified Text.ParserCombinators.ReadP as P
+import qualified Text.ParserCombinators.ReadPrec as PC
+import Text.Read
+
+data Signal = List [Signal] | Val Int deriving (Show)
+
+instance Read Signal where
+  readPrec =
+    ( do
+        _ <- lift . P.char $ '['
+        signals <- lift . P.many $ do
+          s <- PC.readPrec_to_P readPrec 0
+          _ <- P.optional . P.char $ ','
+          return s
+        _ <- lift . P.char $ ']'
+        return . List $ signals
+    )
+      PC.<++ (Val <$> readPrec)
+
+data SPair = SPair Signal Signal deriving (Show)
+
+instance Read SPair where
+  readPrec = do
+    lift P.skipSpaces
+    p1 <- readPrec
+    lift P.skipSpaces
+    p2 <- readPrec
+    lift P.skipSpaces
+    return $ SPair p1 p2
+
+newtype SPairs = SPairs {unSPairs :: [SPair]} deriving (Show)
+
+instance Read SPairs where
+  readPrec = SPairs <$> (lift . P.many . PC.readPrec_to_P readPrec $ 0)
+
+part1Solution :: SPairs -> Int
+part1Solution = length . unSPairs
+
+part2Solution :: SPairs -> Int
+part2Solution = length . unSPairs
