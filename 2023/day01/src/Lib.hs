@@ -5,9 +5,8 @@ module Lib
 where
 
 import Data.Char (isDigit)
-import Data.List (elemIndex, foldl')
+import Data.List (elemIndex)
 import Data.Maybe (fromMaybe)
-import Debug.Trace (trace)
 
 toNumb :: Char -> Int
 toNumb c = fromMaybe 0 $ elemIndex c ['0' .. '9']
