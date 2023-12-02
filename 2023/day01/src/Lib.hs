@@ -4,13 +4,13 @@ module Lib
   )
 where
 
-import Data.List (elemIndex, foldl')
 import Data.Char (isDigit)
+import Data.List (elemIndex, foldl')
 import Data.Maybe (fromMaybe)
 import Debug.Trace (trace)
 
 toNumb :: Char -> Int
-toNumb c = fromMaybe 0 $ elemIndex c ['0'..'9']
+toNumb c = fromMaybe 0 $ elemIndex c ['0' .. '9']
 
 strDigits :: [(String, Char)]
 strDigits = zip ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"] "123456789"
@@ -35,7 +35,8 @@ prepareString cs
     applyReplace cs' (ds, d)
       | take lds cs' == ds = [d]
       | otherwise = ""
-      where lds = length ds
+      where
+        lds = length ds
 
     rest = prepareString . tail $ cs
 
