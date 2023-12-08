@@ -7,6 +7,7 @@ where
 import Data.Char (isAlphaNum)
 import Data.List (foldl')
 import qualified Data.Map as M
+import Debug.Trace (trace)
 import qualified Text.ParserCombinators.ReadP as P
 import Text.Read
 
@@ -73,4 +74,4 @@ part2Solution networkMap = foldl' lcm (head pathesLength) (tail pathesLength)
   where
     n = read networkMap
     starts = filter ((== 'A') . last) . M.keys . nNodes $ n
-    pathesLength = fmap (length . takeWhile ((/= 'Z') . last . nStep) . iterate desertStep . (`setStartStep` n)) starts
+    pathesLength = fmap (length . (\sts -> trace (show . fmap nStep $ sts) sts) . takeWhile ((/= 'Z') . last . nStep) . iterate desertStep . (`setStartStep` n)) starts
