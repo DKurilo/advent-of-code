@@ -4,7 +4,6 @@ module Lib
   )
 where
 
-import Data.List (foldl')
 import qualified Text.ParserCombinators.ReadP as P
 import Text.Read
 
@@ -104,6 +103,37 @@ adjustPoint p1 p2 p3
   | py p3 < py p2 && px p1 < px p2 = p2
   | otherwise = error "oops!"
 
+-- What happens here
+-- I'm using Shoelace formula to get area
+-- https://en.m.wikipedia.org/wiki/Shoelace_formula
+-- There is one problem. If we have plygon like this:
+-- .....
+-- .   .
+-- . ...
+-- . .
+-- . ...
+-- .   .
+-- .....
+-- vertices defined in coordinates where each vertex is in the middle of sqare
+-- but we want to have whole square in result
+-- to have it we need to converti it to
+-- ------
+
+-- |    |
+-- |    |
+-- |  ---
+-- |  |
+-- |  ---
+-- |    |
+-- |    |
+-- ------
+-- so whole area will be in polygon
+-- and one more thing, to make it working properly we need to ensure we are
+-- going through points clockwise
+-- that is exactly what preparePerimeter is doing.
+-- Finds the most right vertex on the top, makes perimeter starting from this point,
+-- checks if perimeter have to be reversed, reverse it in case we need it and
+-- then adjust each vertex in the way all points (and no new points) are inside polygon
 part1Solution :: [String] -> Int
 part1Solution = findArea . preparePerimeter . mkPerimeter . fmap read
 
