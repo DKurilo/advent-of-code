@@ -5,15 +5,12 @@ module Lib
 where
 
 import Data.Bifunctor (second)
-import Data.List (foldl', sortOn)
+import Data.List (foldl')
 import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
 import qualified Data.Set as S
 
 data Point = P {px :: Int, py :: Int} deriving (Show, Eq, Ord)
-
-manh :: Point -> Point -> Int
-manh (P x1 y1) (P x2 y2) = abs (x1 - x2) + abs (y1 - y2)
 
 data Direction = DUp | DRight | DDown | DLeft deriving (Show)
 
@@ -65,7 +62,6 @@ findPathsLengths trial start finish getDirections = doer start (getDirections TE
                  in xs <> xs'
             )
             []
-            . sortOn (negate . manh finish)
             . filter
               ( \p' ->
                   p' `M.member` trial
