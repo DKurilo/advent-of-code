@@ -6,38 +6,51 @@
 
   outputs = inputs:
     let
-      overlay = final: prev: {
-        haskell = prev.haskell // {
-          packageOverrides = hfinal: hprev:
-            prev.haskell.packageOverrides hfinal hprev // {
-              day24 = hfinal.callCabal2nix "day24" ./. { };
-            };
-        };
-        day24 = final.haskell.lib.compose.justStaticExecutables final.haskellPackages.day24;
-      };
       perSystem = system:
         let
+          overlay = final: prev: {
+            haskell = prev.haskell // {
+              packageOverrides = hfinal: hprev:
+                prev.haskell.packageOverrides hfinal hprev // {
+                  day24 = hfinal.callCabal2nix "day24" ./. { z3 = z3haskell; };
+                };
+            };
+            day24 = final.haskell.lib.compose.justStaticExecutables final.haskellPackages.day24;
+          };
           pkgs = import inputs.nixpkgs { inherit system; overlays = [ overlay ]; };
           hspkgs = pkgs.haskellPackages;
+          z3pkgs = import ./z3.nix {
+            lib = pkgs.lib;
+            stdenv = pkgs.stdenv;
+            fetchFromGitHub = pkgs.fetchFromGitHub;
+            python = pkgs.python3Full;
+            fixDarwinDylibNames = pkgs.fixDarwinDylibNames;
+            pythonBindings = true;
+            writeScript = pkgs.writeScript;
+          };
+          z3haskell = import ./haskell-z3.nix {
+            pkgs = pkgs;
+            z3 = z3pkgs.z3;
+          };
         in
         {
           devShell = hspkgs.shellFor {
             withHoogle = true;
-            packages = p: [ p.day24 ];
+            packages = p: [ p.day24 { haskell-z3 = z3haskell; } ];
             buildInputs = [
               hspkgs.Cabal
               hspkgs.cabal-install
               hspkgs.haskell-language-server
               hspkgs.hlint
               hspkgs.ormolu
-              pkgs.z3
+              z3pkgs.z3
+              z3haskell
               pkgs.bashInteractive
               pkgs.python3Full
-              pkgs.python311Packages.z3-solver
             ];
           };
           defaultPackage = pkgs.day24;
         };
     in
-    { inherit overlay; } // inputs.flake-utils.lib.eachDefaultSystem perSystem;
+    { } // inputs.flake-utils.lib.eachDefaultSystem perSystem;
 }

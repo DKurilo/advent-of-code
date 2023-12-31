@@ -10,6 +10,5 @@ main = do
   putStrLn "Part 1"
   print . part1Solution $ xs
   putStrLn "Part 2"
-  print . part2Solution $ xs
-
--- print =<< part2Solution xs
+  -- print . part2Solution $ xs
+  print =<< part2Solution xs

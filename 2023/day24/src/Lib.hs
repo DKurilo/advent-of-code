@@ -275,8 +275,8 @@ data Term
 -- then we can build matrix to find z:
 -- zr + vrz * t0 = z0 + v0z * t0
 -- zr + vrz * t1 = z1 + v1z * t1
-part2Solution :: String -> Rational
-part2Solution cs = trace (show (xr, yr, zr)) $ xr + yr + zr
+part2Solution_ :: String -> Rational
+part2Solution_ cs = trace (show (xr, yr, zr)) $ xr + yr + zr
   where
     hs =
       ( fmap read
@@ -319,7 +319,6 @@ part2Solution cs = trace (show (xr, yr, zr)) $ xr + yr + zr
 -- next solution I did first after tried to build my own solver in 24 hours that I had.
 -- I didn't finish my solver. Maybe I'll try to do this at some point later.
 -- But I start checking if there are some ready to use solver and found z3 and haskell library for it.
-
 mkTask :: [Hailstone] -> Z3 (Maybe Integer)
 mkTask hs = do
   xr <- mkFreshIntVar "xr"
@@ -364,8 +363,8 @@ mkTask hs = do
 -- the problem is it uses z3 solver and for some reason it doesn't work well
 -- in nix with darwin.
 -- but all complexity is in z3 solver.
-part2SolutionZ3Solver :: String -> IO Integer
-part2SolutionZ3Solver cs = do
+part2Solution :: String -> IO Integer
+part2Solution cs = do
   let css = splitOn "\n\n" cs
       hs =
         ( fmap read
@@ -373,9 +372,7 @@ part2SolutionZ3Solver cs = do
             . head
         )
           css
-  putStrLn "ready.."
-  result <- evalZ3 . mkTask $ hs
-  putStrLn "done"
+  result <- evalZ3 . mkTask . take 3 $ hs
   return . fromMaybe 0 $ result
 
 -- stop here
