@@ -275,8 +275,8 @@ data Term
 -- then we can build matrix to find z:
 -- zr + vrz * t0 = z0 + v0z * t0
 -- zr + vrz * t1 = z1 + v1z * t1
-part2Solution_ :: String -> Rational
-part2Solution_ cs = trace (show (xr, yr, zr)) $ xr + yr + zr
+part2Solution :: String -> Rational
+part2Solution cs = trace (show (xr, yr, zr)) $ xr + yr + zr
   where
     hs =
       ( fmap read
@@ -363,8 +363,8 @@ mkTask hs = do
 -- the problem is it uses z3 solver and for some reason it doesn't work well
 -- in nix with darwin.
 -- but all complexity is in z3 solver.
-part2Solution :: String -> IO Integer
-part2Solution cs = do
+part2Solution_ :: String -> IO Integer
+part2Solution_ cs = do
   let css = splitOn "\n\n" cs
       hs =
         ( fmap read
