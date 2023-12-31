@@ -276,7 +276,7 @@ data Term
 -- zr + vrz * t0 = z0 + v0z * t0
 -- zr + vrz * t1 = z1 + v1z * t1
 part2Solution :: String -> Rational
-part2Solution cs = trace (show (xr, yr, zr)) $ xr + yr + zr
+part2Solution cs = xr + yr + zr
   where
     hs =
       ( fmap read
