@@ -8,16 +8,27 @@ import qualified Text.ParserCombinators.ReadP as P
 import Text.Read
 import Data.Char (isDigit)
 
+readNumber :: Int -> P.ReadP Int
+readNumber = fmap read . doer
+  where
+      doer :: Int -> P.ReadP String
+      doer 0 = return []
+      doer n = do
+          c <- P.satisfy isDigit
+          cs <- doer (n - 1) P.<++ return []
+          return $ c:cs
+  
+
 data Op = Mul Int Int | Do | Dont deriving (Eq, Show)
 
 instance Read Op where
     readPrec = lift $ (do
           _ <- P.string "mul("
-          x <- P.munch1 isDigit
+          x <- readNumber 3
           _ <- P.char ','
-          y <- P.munch1 isDigit
+          y <- readNumber 3
           _ <- P.char ')'
-          return $ Mul (read x) (read y)) P.<++ (do
+          return $ Mul x y) P.<++ (do
               _ <- P.string "do()"
               return Do
           ) P.<++ (do
