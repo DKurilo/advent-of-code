@@ -5,10 +5,6 @@ module Lib
 
 import qualified Data.Map as M
 import qualified Data.Set as S
-import Debug.Trace (trace)
-import qualified Text.ParserCombinators.ReadP as P
-import qualified Text.ParserCombinators.ReadPrec as PC
-import Text.Read
 
 data Point = P
   { px :: Int
@@ -48,9 +44,14 @@ isInside tl br p =
 
 antinodes1 :: Point -> Point -> Point -> Point -> [Point]
 antinodes1 tl br p1 p2 =
-  filter
-    (isInside tl br)
-    [P (px p1 + dx) (py p1 + dy), P (px p2 - dx) (py p2 - dy)]
+  filter (isInside tl br)
+    $ [P (px p1 + dx) (py p1 + dy), P (px p2 - dx) (py p2 - dy)]
+        <> [ P (px p1 - dx `div` 3) (py p1 - dy `div` 3)
+           | dx `mod` 3 == 0 && dy `mod` 3 == 0
+           ]
+        <> [ P (px p1 - 2 * (dx `div` 3)) (py p1 - 2 * (dy `div` 3))
+           | dx `mod` 3 == 0 && dy `mod` 3 == 0
+           ]
   where
     dx = px p1 - px p2
     dy = py p1 - py p2
