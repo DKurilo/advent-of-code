@@ -5,7 +5,7 @@ https://github.com/jonascarpay/template-haskell
 
 ## Template for Haskell + Nix projects.
 
-Nix-based Haskell template containing `ghc`, `cabal`, `hoogle`, `ormolu`, and `haskell-language-server`.
+Nix-based Haskell template containing `ghc`, `cabal`, `hoogle`, `hindent`, and `haskell-language-server`.
 
 ### Usage
 
