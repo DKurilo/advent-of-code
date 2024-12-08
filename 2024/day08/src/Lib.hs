@@ -59,8 +59,8 @@ findAntinodes :: (Point -> Point -> [Point]) -> [Point] -> S.Set Point
 findAntinodes nodeGetter =
   S.fromList . concatMap (\ps -> nodeGetter (head ps) (ps !! 1)) . kFromN 2
 
-part1Solution :: [String] -> Int
-part1Solution css =
+solution :: (Point -> Point -> Point -> Point -> [Point]) -> [String] -> Int
+solution antiNodesGetter css =
   S.size
     . S.unions
     . fmap (findAntinodes nodeGetter)
@@ -70,7 +70,10 @@ part1Solution css =
     $ am
   where
     am = parseAntennas css
-    nodeGetter = antinodes1 (P 0 0) (P (amW am - 1) (amH am - 1))
+    nodeGetter = antiNodesGetter (P 0 0) (P (amW am - 1) (amH am - 1))
+
+part1Solution :: [String] -> Int
+part1Solution = solution antinodes1
 
 antinodes2 :: Point -> Point -> Point -> Point -> [Point]
 antinodes2 tl br p1 p2 = [p1] <> psDir (+) <> psDir (-)
@@ -84,14 +87,4 @@ antinodes2 tl br p1 p2 = [p1] <> psDir (+) <> psDir (-)
         $ p1
 
 part2Solution :: [String] -> Int
-part2Solution css =
-  S.size
-    . S.unions
-    . fmap (findAntinodes nodeGetter)
-    . filter ((>= 2) . length)
-    . M.elems
-    . amM
-    $ am
-  where
-    am = parseAntennas css
-    nodeGetter = antinodes2 (P 0 0) (P (amW am - 1) (amH am - 1))
+part2Solution = solution antinodes2
