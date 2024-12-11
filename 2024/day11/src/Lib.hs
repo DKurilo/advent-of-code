@@ -6,7 +6,8 @@ module Lib
   ) where
 
 import Control.Applicative ((<|>))
-import Control.Monad (join)
+
+-- import Control.Monad (join)
 import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
 
@@ -29,24 +30,23 @@ rule3 = Just . (: []) . show . (* (2024 :: Integer)) . read
 applyRules :: String -> Maybe [String]
 applyRules n = rule1 n <|> rule2 n <|> rule3 n
 
-blinkMany :: Int -> [String] -> Int
-blinkMany n =
-  maybe 0 length
-    . (!! n)
-    . iterate (\mbNs -> (fmap join . mapM applyRules) =<< mbNs)
-    . Just
-
+-- blinkMany :: Int -> [String] -> Int
+-- blinkMany n =
+--   maybe 0 length
+--     . (!! n)
+--     . iterate (\mbNs -> (fmap join . mapM applyRules) =<< mbNs)
+--     . Just
 blink :: M.Map String Int -> M.Map String Int
 blink =
   M.fromListWith (+)
     . concatMap (\(x, n) -> fmap (, n) . fromMaybe [] . applyRules $ x)
     . M.toList
 
+blinkMany :: Int -> [String] -> Int
+blinkMany n = sum . M.elems . (!! n) . iterate blink . M.fromList . fmap (, 1)
+
 part1Solution :: [String] -> Int
--- part1Solution = blinkMany 25
-part1Solution =
-  sum . M.elems . (!! 25) . iterate blink . M.fromList . fmap (, 1)
+part1Solution = blinkMany 25
 
 part2Solution :: [String] -> Int
-part2Solution =
-  sum . M.elems . (!! 75) . iterate blink . M.fromList . fmap (, 1)
+part2Solution = blinkMany 75
