@@ -1,0 +1,16 @@
+cradle:
+  multi:
+    # - path: "ignore/"
+    #   config: {cradle: {none: }}
+
+    - path: "src"
+      config: {cradle: {cabal: {component: "lib:day14"}}}
+
+    - path: "app"
+      config: {cradle: {cabal: {component: "day14:day14-exe"}}}
+
+    - path: "test"
+      config: {cradle: {cabal: {component: "day14:day14-test"}}}
+
+    - path: "bench"
+      config: {cradle: {cabal: {component: "day14:day14-bench"}}}

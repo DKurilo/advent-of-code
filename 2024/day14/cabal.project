@@ -1,0 +1,5 @@
+packages:
+  ./
+
+package day14
+  tests: True
