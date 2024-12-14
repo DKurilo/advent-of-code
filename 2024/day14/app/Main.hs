@@ -11,6 +11,10 @@ main = do
   putStrLn "Part 1"
   print . part1Solution $ xs
   putStrLn "Part 2"
-  forM_ (part2Solution xs) $ \(n, pic) -> do
-    putStrLn pic
-    print n
+  let part2result = part2Solution xs
+      (n, pic) = last part2result
+  putStrLn pic
+  print n
+  -- uncomment for animation
+  -- forM_ part2result $ \(n', pic') -> do
+  --   putStr $ "\o33[0;0H" <> pic' <> "\n" <> show n' <> "\n"
