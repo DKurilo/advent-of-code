@@ -118,15 +118,15 @@ isChristmasTree br =
     ]
   where
     minimalTreeW = 5
-    minimalTreeH = 3
-    minimalTree = ["..#..", ".###.", "#####"]
+    minimalTreeH = 5
+    minimalTree = replicate 5 "#####"
     pic = linesBr br
 
-part2Solution :: String -> (Int, String)
+part2Solution :: String -> [(Int, String)]
 part2Solution cs =
-  (\n -> (n, show . waitSeconds n $ br))
-    . head
-    . dropWhile (not . isChristmasTree . (`waitSeconds` br))
+  fmap (\n -> (n, show . waitSeconds n $ br))
+    . take 1
+    . filter (isChristmasTree . (`waitSeconds` br))
     $ [0 ..]
   where
     br = read cs
