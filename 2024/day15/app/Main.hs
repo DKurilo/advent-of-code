@@ -6,7 +6,7 @@ import System.Environment (getArgs)
 
 main :: IO ()
 main = do
-  xs <- getArgs >>= (fmap lines . readFile . fromMaybe "./input" . listToMaybe)
+  xs <- getArgs >>= (readFile . fromMaybe "./input" . listToMaybe)
   putStrLn "Part 1"
   print . part1Solution $ xs
   putStrLn "Part 2"
