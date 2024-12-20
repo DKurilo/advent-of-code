@@ -72,6 +72,10 @@ heatMap tr = doer end end
               | x >= x' -> False
             _ -> p `S.member` tTrack tr
 
+-- I hate this exercise. It was written in such stupid language that
+-- I just didn't understand cheat is not about walls.
+-- Cheat can be started anywhere and finished everywhere
+-- That is.. worst task in AOC so far..
 canGoInWall :: Int -> Track -> Point -> [(Point, Int)]
 canGoInWall maxDist tr p0 = M.toList $ doer p0s p0s M.empty 1
   where
