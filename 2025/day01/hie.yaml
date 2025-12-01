@@ -1,0 +1,16 @@
+cradle:
+  multi:
+    # - path: "ignore/"
+    #   config: {cradle: {none: }}
+
+    - path: "src"
+      config: {cradle: {cabal: {component: "lib:day01"}}}
+
+    - path: "app"
+      config: {cradle: {cabal: {component: "day01:day01-exe"}}}
+
+    - path: "test"
+      config: {cradle: {cabal: {component: "day01:day01-test"}}}
+
+    - path: "bench"
+      config: {cradle: {cabal: {component: "day01:day01-bench"}}}

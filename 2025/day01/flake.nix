@@ -1,5 +1,5 @@
 {
-  description = "PKGNAME";
+  description = "day01";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   inputs.flake-utils.url = "github:numtide/flake-utils";
@@ -10,10 +10,10 @@
         haskell = prev.haskell // {
           packageOverrides = hfinal: hprev:
             prev.haskell.packageOverrides hfinal hprev // {
-              PKGNAME = hfinal.callCabal2nix "PKGNAME" ./. { };
+              day01 = hfinal.callCabal2nix "day01" ./. { };
             };
         };
-        PKGNAME = final.haskell.lib.compose.justStaticExecutables final.haskellPackages.PKGNAME;
+        day01 = final.haskell.lib.compose.justStaticExecutables final.haskellPackages.day01;
       };
       perSystem = system:
         let
@@ -23,7 +23,7 @@
         {
           devShell = hspkgs.shellFor {
             withHoogle = true;
-            packages = p: [ p.PKGNAME ];
+            packages = p: [ p.day01 ];
             buildInputs = [
               hspkgs.cabal-install
               hspkgs.haskell-language-server
@@ -32,7 +32,7 @@
               pkgs.bashInteractive
             ];
           };
-          defaultPackage = pkgs.PKGNAME;
+          defaultPackage = pkgs.day01;
         };
     in
     { inherit overlay; } // inputs.flake-utils.lib.eachDefaultSystem perSystem;
