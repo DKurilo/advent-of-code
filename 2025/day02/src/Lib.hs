@@ -7,7 +7,7 @@ where
 import Data.List.Split (splitOn)
 import qualified Data.Set as S
 
-data Range = FRange {frLen :: Int} | ERange {erStart :: Int, erEnd :: Int, erHalfStart :: Int, erHalfEnd :: Int, erMul :: Int} | ORange {orStart :: Int, orEnd :: Int} deriving (Eq, Show)
+data Range = FRange {frLen :: Int} | ERange {erStart :: Integer, erEnd :: Integer, erHalfStart :: Integer, erHalfEnd :: Integer, erMul :: Integer} | ORange {orStart :: Integer, orEnd :: Integer} deriving (Eq, Show)
 
 ranges :: [String] -> [Range]
 ranges [xcs, ycs]
@@ -26,7 +26,7 @@ ranges [xcs, ycs]
     y2 = read . take lx2 $ ycs
 ranges _ = []
 
-codesFromRange :: Range -> [Int]
+codesFromRange :: Range -> [Integer]
 codesFromRange (FRange n)
   | odd n = []
   | otherwise = fmap (\i2 -> i2 * mul + i2) [10 ^ (n `div` 2 - 1) ..  10 ^ (n `div` 2) - 1]
@@ -39,10 +39,10 @@ codesFromRange (ORange _ _) = []
 parseRanges :: String -> [Range]
 parseRanges = concatMap (ranges . splitOn "-") . splitOn ","
 
-part1Solution :: String -> Int
+part1Solution :: String -> Integer
 part1Solution = sum . concatMap codesFromRange . parseRanges
 
-data Range2 = Range2 {r2Start :: Int, r2End :: Int, r2Len :: Int} deriving (Eq, Show)
+data Range2 = Range2 {r2Start :: Integer, r2End :: Integer, r2Len :: Int} deriving (Eq, Show)
 
 ranges2 :: [String] -> [Range2]
 ranges2 [xcs, ycs]
@@ -59,21 +59,21 @@ ranges2 [xcs, ycs]
     y = read ycs
 ranges2 _ = []
 
-nTimes :: Int -> Int -> Int -> Int
+nTimes :: Integer -> Integer -> Int -> Integer
 nTimes x mul n = doer 0 n
     where
-        doer :: Int -> Int -> Int
+        doer :: Integer -> Int -> Integer
         doer y 0 = y
         doer y n = doer (y * mul + x) (n - 1)
 
-repeatingNthInRange :: Int -> Int -> Int -> Int -> [Int]
+repeatingNthInRange :: Int -> Int -> Integer -> Integer -> [Integer]
 repeatingNthInRange n times x y = [k | i <- [10 ^ (n - 1) .. 10 ^ n - 1], let k = nTimes i (10 ^ n) times, k >= x, k <= y]
 
-codesFromRange2 :: Range2 -> [Int]
+codesFromRange2 :: Range2 -> [Integer]
 codesFromRange2 (Range2 x y n) = concat [repeatingNthInRange n' k x y | n' <- [1 .. n `div` 2], n `mod` n' == 0, let k = n `div` n']
 
 parseRanges2 :: String -> [Range2]
 parseRanges2 = concatMap (ranges2 . splitOn "-") . splitOn ","
 
-part2Solution :: String -> Int
+part2Solution :: String -> Integer
 part2Solution = sum . S.fromList . concatMap codesFromRange2 . parseRanges2
