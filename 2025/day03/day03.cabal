@@ -1,0 +1,69 @@
+cabal-version:   2.4
+name:            day03
+version:         0
+license:         BSD-3-Clause
+build-type:      Simple
+license-file:    LICENSE
+author:          Dima Kurilo
+maintainer:      Dima Kurilo <dkurilo@gmail.com>
+copyright:       2025 Dima Kurilo
+tested-with:     GHC ==8.6.5 || ==8.8.3 || ==8.10.7 || ==9.0.2 || ==9.2.2
+extra-doc-files:
+  CHANGELOG.md
+  README.md
+
+-- category:
+-- description:     description
+-- synopsis:        one-line synopsis
+-- homepage:        https://github.com/FIXME/day03#readme
+-- source-repository head
+--   type:     git
+--   location: git://github.com/FIXME/day03.git
+
+common common-options
+  build-depends:    base >=4.9 && <5
+  default-language: Haskell2010
+  ghc-options:
+    -Wall -Wcompat -Widentities -Wincomplete-uni-patterns
+    -Wincomplete-record-updates -Wredundant-constraints
+    -fhide-source-paths -Wpartial-fields
+
+library
+  import:          common-options
+  hs-source-dirs:  src
+  exposed-modules: Lib
+  build-depends:
+    , containers
+    , mtl
+    , split
+
+executable day03-exe
+  import:         common-options
+  hs-source-dirs: app
+  main-is:        Main.hs
+  build-depends:  day03
+  ghc-options:    -threaded -rtsopts -with-rtsopts=-N
+
+test-suite day03-test
+  import:         common-options
+  type:           exitcode-stdio-1.0
+  hs-source-dirs: test
+  main-is:        Spec.hs
+  build-depends:
+    , hspec
+    , HUnit
+    , day03
+    , QuickCheck
+
+  ghc-options:    -threaded -rtsopts -with-rtsopts=-N
+
+benchmark day03-bench
+  import:         common-options
+  type:           exitcode-stdio-1.0
+  hs-source-dirs: bench
+  main-is:        Main.hs
+  build-depends:
+    , criterion
+    , day03
+
+  ghc-options:    -threaded -rtsopts -with-rtsopts=-N
