@@ -1,5 +1,5 @@
 cabal-version:   2.4
-name:            day10
+name:            day11
 version:         0
 license:         BSD-3-Clause
 build-type:      Simple
@@ -15,10 +15,10 @@ extra-doc-files:
 -- category:
 -- description:     description
 -- synopsis:        one-line synopsis
--- homepage:        https://github.com/FIXME/day10#readme
+-- homepage:        https://github.com/FIXME/day11#readme
 -- source-repository head
 --   type:     git
---   location: git://github.com/FIXME/day10.git
+--   location: git://github.com/FIXME/day11.git
 
 common common-options
   build-depends:    base >=4.9 && <5
@@ -36,17 +36,15 @@ library
     , containers
     , mtl
     , split
-    , matrix
-    , vector
 
-executable day10-exe
+executable day11-exe
   import:         common-options
   hs-source-dirs: app
   main-is:        Main.hs
-  build-depends:  day10
+  build-depends:  day11
   ghc-options:    -threaded -rtsopts -with-rtsopts=-N
 
-test-suite day10-test
+test-suite day11-test
   import:         common-options
   type:           exitcode-stdio-1.0
   hs-source-dirs: test
@@ -54,18 +52,18 @@ test-suite day10-test
   build-depends:
     , hspec
     , HUnit
-    , day10
+    , day11
     , QuickCheck
 
   ghc-options:    -threaded -rtsopts -with-rtsopts=-N
 
-benchmark day10-bench
+benchmark day11-bench
   import:         common-options
   type:           exitcode-stdio-1.0
   hs-source-dirs: bench
   main-is:        Main.hs
   build-depends:
     , criterion
-    , day10
+    , day11
 
   ghc-options:    -threaded -rtsopts -with-rtsopts=-N
